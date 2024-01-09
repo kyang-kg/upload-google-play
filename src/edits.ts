@@ -46,8 +46,8 @@ export async function runUpload(
     changesNotSentForReview: boolean,
     existingEditId: string | undefined,
     // existingVersionNumber: number[] | undefined,
-    status: string,
-    validatedReleaseFiles: string[]
+    status: string
+    // validatedReleaseFiles: string[]
 ) {
     const auth = new google.auth.GoogleAuth({
         scopes: ['https://www.googleapis.com/auth/androidpublisher']
@@ -67,24 +67,24 @@ export async function runUpload(
         existingEditId: existingEditId,
         // existingVersionNumber: existingVersionNumber,
         status: status
-    }, validatedReleaseFiles);
+    });
 
     if (result) {
         console.log(`Finished uploading to the Play Store: ${result}`)
     }
 }
 
-async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): Promise<string | void> {
+async function uploadToPlayStore(options: EditOptions): Promise<string | void> {
     const internalSharingDownloadUrls: string[] = []
     
     // Check the 'track' for 'internalsharing', if so switch to a non-track api
     if (options.track === 'internalsharing') {
         core.debug("Track is Internal app sharing, switch to special upload api")
-        for (const releaseFile of releaseFiles) {
-            core.debug(`Uploading ${releaseFile}`);
-            const url = await uploadInternalSharingRelease(options, releaseFile)
-            internalSharingDownloadUrls.push(url)
-        }
+        // for (const releaseFile of releaseFiles) {
+        //     core.debug(`Uploading ${releaseFile}`);
+        //     const url = await uploadInternalSharingRelease(options, releaseFile)
+        //     internalSharingDownloadUrls.push(url)
+        // }
     } else {
         // Create a new Edit
         const appEditId = await getOrCreateEdit(options)

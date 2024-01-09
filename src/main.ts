@@ -54,7 +54,7 @@ export async function run() {
         // if (releaseFile) {
         //     core.warning(`WARNING!! 'releaseFile' is deprecated and will be removed in a future release. Please migrate to 'releaseFiles'`)
         // }
-        const validatedReleaseFiles: string[] = await validateReleaseFiles(releaseFiles ?? [releaseFile])
+        // const validatedReleaseFiles: string[] = await validateReleaseFiles(releaseFiles ?? [releaseFile])
 
         if (whatsNewDir != undefined && whatsNewDir.length > 0 && !fs.existsSync(whatsNewDir)) {
             core.warning(`Unable to find 'whatsnew' directory @ ${whatsNewDir}`);
@@ -81,8 +81,8 @@ export async function run() {
                 changesNotSentForReview,
                 existingEditId,
                 // existingVersionNumber,
-                status,
-                validatedReleaseFiles
+                status
+                // validatedReleaseFiles
             ),
             {
                 milliseconds: 3.6e+6
