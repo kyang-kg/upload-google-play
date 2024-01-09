@@ -93,7 +93,7 @@ export async function run() {
             core.setFailed(error.message)
         } else {
             core.setFailed(error);
-            core.setFailed('Unknown error occurred.');
+            // core.setFailed('Unknown error occurred.');
         }
     } finally {
         if (core.getInput('serviceAccountJsonPlainText', { required: false})) {
