@@ -44,13 +44,14 @@ export async function validateInAppUpdatePriority(inAppUpdatePriority: number | 
 }
 
 export async function validateReleaseFiles(releaseFiles: string[] | undefined): Promise<string[]> {
-    if (!releaseFiles) {
-        return Promise.reject(new Error(`You must provide 'releaseFiles' in your configuration`))
-    } else {
-        const files = await fg(releaseFiles)
-        if (!files.length) {
-            return Promise.reject(new Error(`Unable to find any release file matching ${releaseFiles.join(',')}`))
-        }
-        return files
-    }
+    // if (!releaseFiles) {
+    //     return Promise.reject(new Error(`You must provide 'releaseFiles' in your configuration`))
+    // } else {
+    //     const files = await fg(releaseFiles)
+    //     if (!files.length) {
+    //         return Promise.reject(new Error(`Unable to find any release file matching ${releaseFiles.join(',')}`))
+    //     }
+    //     return files
+    // }
+    return releaseFiles ?? []
 }
