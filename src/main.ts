@@ -24,7 +24,7 @@ export async function run() {
         const debugSymbols = core.getInput('debugSymbols', { required: false });
         const changesNotSentForReview = core.getInput('changesNotSentForReview', { required: false }) == 'true';
         const existingEditId = core.getInput('existingEditId');
-        const existingVersionNumber = core.getInput('existingVersionNumber', { required: false });
+        // const existingVersionNumber = core.getInput('existingVersionNumber', { required: false });
 
         await validateServiceAccountJson(serviceAccountJsonRaw, serviceAccountJson)
 
@@ -79,7 +79,7 @@ export async function run() {
                 releaseName,
                 changesNotSentForReview,
                 existingEditId,
-                existingVersionNumber,
+                // existingVersionNumber,
                 status,
                 validatedReleaseFiles
             ),

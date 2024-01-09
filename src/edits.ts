@@ -31,7 +31,7 @@ export interface EditOptions {
     status: string;
     changesNotSentForReview?: boolean;
     existingEditId?: string;
-    existingVersionNumber?: number[];
+    // existingVersionNumber?: number[];
 }
 
 export async function runUpload(
@@ -45,7 +45,7 @@ export async function runUpload(
     name: string | undefined,
     changesNotSentForReview: boolean,
     existingEditId: string | undefined,
-    existingVersionNumber: number[] | undefined,
+    // existingVersionNumber: number[] | undefined,
     status: string,
     validatedReleaseFiles: string[]
 ) {
@@ -65,7 +65,7 @@ export async function runUpload(
         name: name,
         changesNotSentForReview: changesNotSentForReview,
         existingEditId: existingEditId,
-        existingVersionNumber: existingVersionNumber,
+        // existingVersionNumber: existingVersionNumber,
         status: status
     }, validatedReleaseFiles);
 
@@ -185,9 +185,9 @@ async function addReleasesToTrack(appEditId: string, options: EditOptions): Prom
         core.debug(`userFraction=${options.userFraction}`)
     }
     core.debug(`status=${status}`)
-    if (options.existingVersionNumber) {
-        core.debug(`versionCodes=${options.existingVersionNumber.toString()}`)
-    }
+    // if (options.existingVersionNumber) {
+        // core.debug(`versionCodes=${options.existingVersionNumber.toString()}`)
+    // }
 
     const res = await androidPublisher.edits.tracks
         .update({
