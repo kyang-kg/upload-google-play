@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as fs from "fs"
 import { runUpload } from "./edits"
-import { validateInAppUpdatePriority, validateReleaseFiles, validateStatus, validateUserFraction } from "./input-validation"
+import { validateInAppUpdatePriority, validateStatus, validateUserFraction } from "./input-validation"
 import { unlink, writeFile } from 'fs/promises'
 import pTimeout from 'p-timeout'
 
