@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as fs from "fs"
 import { runUpload } from "./edits"
-import { validateInAppUpdatePriority, validateReleaseFiles, validateStatus, validateUserFraction } from "./input-validation"
+import { validateInAppUpdatePriority, validateStatus, validateUserFraction } from "./input-validation"
 import { unlink, writeFile } from 'fs/promises'
 import pTimeout from 'p-timeout'
 
@@ -24,9 +24,11 @@ export async function run() {
         const debugSymbols = core.getInput('debugSymbols', { required: false });
         const changesNotSentForReview = core.getInput('changesNotSentForReview', { required: false }) == 'true';
         const existingEditId = core.getInput('existingEditId');
+        // const existingVersionNumber = core.getInput('existingVersionNumber', { required: false });
 
+        core.info("testing before service account");
         await validateServiceAccountJson(serviceAccountJsonRaw, serviceAccountJson)
-
+        core.info("testing after service account");
         // Validate user fraction
         let userFractionFloat: number | undefined
         if (userFraction) {
@@ -49,10 +51,10 @@ export async function run() {
         await validateInAppUpdatePriority(inAppUpdatePriorityInt)
 
         // Check release files while maintaining backward compatibility
-        if (releaseFile) {
-            core.warning(`WARNING!! 'releaseFile' is deprecated and will be removed in a future release. Please migrate to 'releaseFiles'`)
-        }
-        const validatedReleaseFiles: string[] = await validateReleaseFiles(releaseFiles ?? [releaseFile])
+        // if (releaseFile) {
+        //     core.warning(`WARNING!! 'releaseFile' is deprecated and will be removed in a future release. Please migrate to 'releaseFiles'`)
+        // }
+        // const validatedReleaseFiles: string[] = await validateReleaseFiles(releaseFiles ?? [releaseFile])
 
         if (whatsNewDir != undefined && whatsNewDir.length > 0 && !fs.existsSync(whatsNewDir)) {
             core.warning(`Unable to find 'whatsnew' directory @ ${whatsNewDir}`);
@@ -78,8 +80,9 @@ export async function run() {
                 releaseName,
                 changesNotSentForReview,
                 existingEditId,
-                status,
-                validatedReleaseFiles
+                // existingVersionNumber,
+                status
+                // validatedReleaseFiles
             ),
             {
                 milliseconds: 3.6e+6
@@ -89,7 +92,8 @@ export async function run() {
         if (error instanceof Error) {
             core.setFailed(error.message)
         } else {
-            core.setFailed('Unknown error occurred.')
+            core.setFailed(error);
+            // core.setFailed('Unknown error occurred.');
         }
     } finally {
         if (core.getInput('serviceAccountJsonPlainText', { required: false})) {
