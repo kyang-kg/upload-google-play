@@ -26,8 +26,9 @@ export async function run() {
         const existingEditId = core.getInput('existingEditId');
         // const existingVersionNumber = core.getInput('existingVersionNumber', { required: false });
 
+        core.info("testing before service account");
         await validateServiceAccountJson(serviceAccountJsonRaw, serviceAccountJson)
-
+        core.info("testing after service account");
         // Validate user fraction
         let userFractionFloat: number | undefined
         if (userFraction) {
