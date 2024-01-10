@@ -203,8 +203,9 @@ async function addReleasesToTrack(appEditId: string, options: EditOptions): Prom
                         userFraction: options.userFraction,
                         status: status,
                         inAppUpdatePriority: options.inAppUpdatePriority,
-                        releaseNotes: await readLocalizedReleaseNotes(options.whatsNewDir),
-                        versionCodes: options.existingVersionNumber?.filter(x => x != 0).map(x => x.toString())
+                        releaseNotes: await readLocalizedReleaseNotes(options.whatsNewDir)
+                        //TODO fix
+                        // versionCodes: versionC?.filter(x => x != 0).map(x => x.toString())
                     }
                 ]
             }
@@ -346,7 +347,7 @@ async function listBundles(appEditId: string, options: EditOptions): Promise<Bun
         editId: appEditId,
     });
 
-    return res.data.bundles
+    return res.data.bundles ?? []
 }
 
 async function uploadBundle(appEditId: string, options: EditOptions, bundleReleaseFile: string): Promise<Bundle> {
