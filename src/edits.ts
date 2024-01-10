@@ -103,13 +103,10 @@ async function uploadToPlayStore(options: EditOptions): Promise<string | void> {
         //     internalSharingDownloadUrls.push(url);
         // }
         const bundles = await listBundles(appEditId, options);
-        const sorted = bundles.sort(compareBundles)
-        for (let i = 0; i < sorted.length; i++) {
-            core.info(`${sorted[i].versionCode} ${i}`);
-        }
+        const sorted = bundles.sort(compareBundles).map((i) => i.versionCode ?? 0)
 
         // Add the uploaded artifacts to the Edit track
-        // await addReleasesToTrack(appEditId, options);
+        await addReleasesToTrack(appEditId, options, [sorted[0]]);
 
         // // Commit the pending Edit
         // core.info(`Committing the Edit`)
@@ -178,7 +175,7 @@ async function validateSelectedTrack(appEditId: string, options: EditOptions): P
     }
 }
 
-async function addReleasesToTrack(appEditId: string, options: EditOptions): Promise<Track> {
+async function addReleasesToTrack(appEditId: string, options: EditOptions, versionCodes: number[]): Promise<Track> {
     const status = options.status
 
     core.debug(`Creating release for:`);
@@ -206,9 +203,8 @@ async function addReleasesToTrack(appEditId: string, options: EditOptions): Prom
                         userFraction: options.userFraction,
                         status: status,
                         inAppUpdatePriority: options.inAppUpdatePriority,
-                        releaseNotes: await readLocalizedReleaseNotes(options.whatsNewDir)
-                        //TODO fix
-                        // versionCodes: versionC?.filter(x => x != 0).map(x => x.toString())
+                        releaseNotes: await readLocalizedReleaseNotes(options.whatsNewDir),
+                        versionCodes: versionCodes?.filter(x => x != 0).map(x => x.toString())
                     }
                 ]
             }
