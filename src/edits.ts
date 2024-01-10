@@ -437,9 +437,9 @@ function inferInternalSharingDownloadUrl(
 
 function compareBundles(first: Bundle, second: Bundle) {
     if ((first.versionCode ?? 0) < (second.versionCode ?? 0)) {
-        return -1;
-    } else if ((first.versionCode ?? 0) > (second.versionCode ?? 0)) {
         return 1;
+    } else if ((first.versionCode ?? 0) > (second.versionCode ?? 0)) {
+        return -1;
     }
     return 0;
 }
