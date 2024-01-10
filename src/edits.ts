@@ -103,8 +103,9 @@ async function uploadToPlayStore(options: EditOptions): Promise<string | void> {
         //     internalSharingDownloadUrls.push(url);
         // }
         const bundles = await listBundles(appEditId, options);
-        for (let i = 0; i < bundles.length; i++) {
-            core.info(`${bundles[i].versionCode} ${i}`);
+        const sorted = bundles.sort(compareBundles)
+        for (let i = 0; i < sorted.length; i++) {
+            core.info(`${sorted[i].versionCode} ${i}`);
         }
 
         // Add the uploaded artifacts to the Edit track
@@ -432,4 +433,13 @@ function inferInternalSharingDownloadUrl(
   versionCode: number
 ) {
   return `https://play.google.com/apps/test/${applicationId}/${versionCode}`;
+}
+
+function compareBundles(first: Bundle, second: Bundle) {
+    if ((first.versionCode ?? 0) < (second.versionCode ?? 0)) {
+        return -1;
+    } else if ((first.versionCode ?? 0) > (second.versionCode ?? 0)) {
+        return 1;
+    }
+    return 0;
 }
