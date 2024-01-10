@@ -103,7 +103,9 @@ async function uploadToPlayStore(options: EditOptions): Promise<string | void> {
         //     internalSharingDownloadUrls.push(url);
         // }
         const bundles = await listBundles(appEditId, options);
-        core.info(`bundles ${bundles}`)
+        for (let i = 0; i < bundles.length; i++) {
+            core.info(`${bundles[i].versionCode} ${i}`);
+        }
 
         // Add the uploaded artifacts to the Edit track
         // await addReleasesToTrack(appEditId, options);
