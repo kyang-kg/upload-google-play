@@ -108,23 +108,23 @@ async function uploadToPlayStore(options: EditOptions): Promise<string | void> {
         // Add the uploaded artifacts to the Edit track
         await addReleasesToTrack(appEditId, options, [sorted[0]]);
 
-        // // Commit the pending Edit
-        // core.info(`Committing the Edit`)
-        // const res = await androidPublisher.edits.commit({
-        //     auth: options.auth,
-        //     editId: appEditId,
-        //     packageName: options.applicationId,
-        //     changesNotSentForReview: options.changesNotSentForReview
-        // });
+        // Commit the pending Edit
+        core.info(`Committing the Edit`)
+        const res = await androidPublisher.edits.commit({
+            auth: options.auth,
+            editId: appEditId,
+            packageName: options.applicationId,
+            changesNotSentForReview: options.changesNotSentForReview
+        });
 
-        // // Simple check to see whether commit was successful
-        // if (res.data.id) {
-        //     core.info(`Successfully committed ${res.data.id}`);
-        //     return res.data.id
-        // } else {
-        //     core.setFailed(`Error ${res.status}: ${res.statusText}`);
-        //     return Promise.reject(res.status);
-        // }
+        // Simple check to see whether commit was successful
+        if (res.data.id) {
+            core.info(`Successfully committed ${res.data.id}`);
+            return res.data.id
+        } else {
+            core.setFailed(`Error ${res.status}: ${res.statusText}`);
+            return Promise.reject(res.status);
+        }
     }
 
     core.setOutput("internalSharingDownloadUrls", internalSharingDownloadUrls);
